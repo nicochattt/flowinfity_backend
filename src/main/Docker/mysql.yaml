@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  dyma-mysql:
+    image: mysql:8.0.36
+    container_name: flowinfinity-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=mydb
+      - MYSQL_USER=nicolas
+      - MYSQL_PASSWORD=nicolas
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./mysql-data:/var/lib/mysql
