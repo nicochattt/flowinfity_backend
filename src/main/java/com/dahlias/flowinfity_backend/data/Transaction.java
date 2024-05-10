@@ -27,8 +27,9 @@ public class Transaction {
     @Column(name = "ouorin")
     private Boolean ouOrIn;
 
-    @Column(name = "association_idassociation")
-    private Long associationId;
+    @ManyToOne
+    @JoinColumn(name = "association_idassociation", nullable = false)
+    private Association association;
 
     // Getters and Setters
 
@@ -72,11 +73,11 @@ public class Transaction {
         this.ouOrIn = ouOrIn;
     }
 
-    public Long getAssociationId() {
-        return associationId;
+    public Association getAssociation() {
+        return association;
     }
 
-    public void setAssociationId(Long associationId) {
-        this.associationId = associationId;
+    public void setAssociation(Association association) {
+        this.association = association;
     }
 }
