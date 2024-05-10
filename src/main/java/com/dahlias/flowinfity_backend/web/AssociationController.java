@@ -1,6 +1,5 @@
 package com.dahlias.flowinfity_backend.web;
 
-import org.springframework.web.bind.annotation.RestController;
 import com.dahlias.flowinfity_backend.data.Association;
 import com.dahlias.flowinfity_backend.service.AssociationService;
 import java.util.List;

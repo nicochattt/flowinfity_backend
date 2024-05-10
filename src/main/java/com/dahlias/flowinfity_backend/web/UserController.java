@@ -1,9 +1,6 @@
 package com.dahlias.flowinfity_backend.web;
 
-import org.springframework.web.bind.annotation.RestController;
-
 import com.dahlias.flowinfity_backend.service.UserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
