@@ -7,8 +7,12 @@ public class AssociationMemberId implements Serializable{
     private Long userId;
     private Long associationId;
 
+    public AssociationMemberId() {
+    }
+    
     public AssociationMemberId(Long userId, Long associationId) {
-        //TODO Auto-generated constructor stub
+        this.userId = userId;
+        this.associationId = associationId;
     }
 
     public Long getUserId() {
