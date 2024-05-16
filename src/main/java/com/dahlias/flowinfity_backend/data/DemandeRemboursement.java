@@ -4,12 +4,12 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "demanderebourcement")
+@Table(name = "demanderemboursement")
 public class DemandeRemboursement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "iddemanderebourcement")
+    @Column(name = "iddemanderemboursement")
     private Long id;
 
     @Column(name = "description")

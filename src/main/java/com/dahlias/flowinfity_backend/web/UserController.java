@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.dahlias.flowinfity_backend.data.User;
 import java.util.List;
+import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/users")
@@ -25,7 +27,16 @@ public class UserController {
                 .map(user -> ResponseEntity.ok().body(user))
                 .orElse(ResponseEntity.notFound().build());
     }
-
+    @GetMapping("/uid/{uid}")
+    public ResponseEntity<User> getUserByUid(@PathVariable String uid) {
+        Optional<User> user = userService.getUserByUid(uid);
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
     @PostMapping
     public User createUser(@RequestBody User user) {
         return userService.createUser(user);

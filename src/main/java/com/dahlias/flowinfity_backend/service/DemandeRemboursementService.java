@@ -23,6 +23,9 @@ public class DemandeRemboursementService {
     @Autowired
     private TransactionRepository transactionRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     public List<DemandeRemboursement> getAllDemandes() {
         return demandeRemboursementRepository.findAll();
     }
@@ -32,7 +35,11 @@ public class DemandeRemboursementService {
     }
 
     public DemandeRemboursement createDemande(DemandeRemboursement demande) {
-        return demandeRemboursementRepository.save(demande);
+        
+        DemandeRemboursement savedDemande = demandeRemboursementRepository.save(demande);
+        sendEmailCreation(savedDemande);
+        return savedDemande;
+        
     }
 
     public DemandeRemboursement updateDemande(Long id, DemandeRemboursement demandeDetails) {
@@ -64,7 +71,7 @@ public class DemandeRemboursementService {
         if (oldStatut == DemandeRemboursementStatut.PENDING && statut == DemandeRemboursementStatut.ACCEPTED) {
             generateTransactionForAcceptedDemande(demande);
         }
-
+        sendEmailNotification(demande);
         return demande;
     }
 
@@ -76,10 +83,28 @@ public class DemandeRemboursementService {
         transaction.setTransactionName(transactionName);
         transaction.setValeur(demande.getMontant());
         transaction.setDate(java.time.LocalDateTime.now());
-        transaction.setOuOrIn(true);
+        transaction.setOutOrIn(true);
         transaction.setAssociation(demande.getAssociation());
 
         transactionRepository.save(transaction);
         AssociationUtil.updateAssociationMoney(demande.getAssociation(), demande.getMontant());
+    }
+    private void sendEmailNotification(DemandeRemboursement demande) {
+        User user = demande.getUser();
+        String to = user.getEmail();
+        String subject = "Mise à jour de votre demande de remboursement";
+        String text = String.format("Bonjour %s %s,\n\nVotre demande de remboursement a été mise à jour.\n\nDétails de la demande:\nDescription: %s\nMontant: %s\nStatut: %s\n\nMerci.",
+                user.getFirstname(), user.getLastname(), demande.getDescription(), demande.getMontant(), demande.getStatut());
+
+        emailService.sendEmail(to, subject, text);
+    }
+    private void sendEmailCreation(DemandeRemboursement demande) {
+        User user = demande.getUser();
+        String to = user.getEmail();
+        String subject = "votre demande de remboursement à bien été crée";
+        String text = String.format("Bonjour %s %s,\n\nVotre demande de remboursement a été mise à jour.\n\nDétails de la demande:\nDescription: %s\nMontant: %s\nStatut: %s\n\nMerci.",
+                user.getFirstname(), user.getLastname(), demande.getDescription(), demande.getMontant(), demande.getStatut());
+
+        emailService.sendEmail(to, subject, text);
     }
 }

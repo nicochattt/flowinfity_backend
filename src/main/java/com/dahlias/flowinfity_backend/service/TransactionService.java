@@ -32,12 +32,12 @@ public class TransactionService {
         Association association = associationRepository.findById(transaction.getAssociation().getId())
                 .orElseThrow(() -> new RuntimeException("Association not found with id: " + transaction.getAssociation().getId()));
 
-        if (transaction.getOuOrIn()) {
+        if (transaction.getOutOrIn()) {
             // If ouOrIn is true, subtract the transaction value from the association's money
-            association.setMoney(association.getMoney().subtract(transaction.getValeur()));
+            association.setBudget(association.getBudget().subtract(transaction.getValeur()));
         } else {
             // If ouOrIn is false, add the transaction value to the association's money
-            association.setMoney(association.getMoney().add(transaction.getValeur()));
+            association.setBudget(association.getBudget().add(transaction.getValeur()));
         }
 
         associationRepository.save(association);
@@ -50,7 +50,7 @@ public class TransactionService {
         transaction.setTransactionName(transactionDetails.getTransactionName());
         transaction.setValeur(transactionDetails.getValeur());
         transaction.setDate(transactionDetails.getDate());
-        transaction.setOuOrIn(transactionDetails.getOuOrIn());
+        transaction.setOutOrIn(transactionDetails.getOutOrIn());
 
         Association association = associationRepository.findById(transactionDetails.getAssociation().getId())
                 .orElseThrow(() -> new RuntimeException("Association not found with id: " + transactionDetails.getAssociation().getId()));

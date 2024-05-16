@@ -20,6 +20,9 @@ public class UserService {
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
+    public Optional<User> getUserByUid(String uid){
+        return userRepository.findByUid(uid);
+    }
 
     public User createUser(User user) {
         return userRepository.save(user);
@@ -32,6 +35,7 @@ public class UserService {
         user.setUid(userDetails.getUid());
         user.setPassword(userDetails.getPassword());
         user.setEmail(userDetails.getEmail());
+        user.setRib(userDetails.getRib());
         return userRepository.save(user);
     }
 

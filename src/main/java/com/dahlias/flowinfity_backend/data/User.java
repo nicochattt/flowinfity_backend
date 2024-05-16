@@ -27,6 +27,8 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "rib")
+    private String rib;
     // Getters and Setters
 
     public Long getId() {
@@ -75,5 +77,12 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    public String getRib() {
+        return rib;
+    }
+
+    public void setRib(String rib) {
+        this.rib = rib;
     }
 }

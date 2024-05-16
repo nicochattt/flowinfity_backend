@@ -24,8 +24,8 @@ public class Transaction {
     @Column(name = "date")
     private LocalDateTime date;
 
-    @Column(name = "ouorin")
-    private Boolean ouOrIn;
+    @Column(name = "outorin")
+    private Boolean outOrIn;
 
     @ManyToOne
     @JoinColumn(name = "association_idassociation", nullable = false)
@@ -65,12 +65,12 @@ public class Transaction {
         this.date = date;
     }
 
-    public Boolean getOuOrIn() {
-        return ouOrIn;
+    public Boolean getOutOrIn() {
+        return outOrIn;
     }
 
-    public void setOuOrIn(Boolean ouOrIn) {
-        this.ouOrIn = ouOrIn;
+    public void setOutOrIn(Boolean outOrIn) {
+        this.outOrIn = outOrIn;
     }
 
     public Association getAssociation() {

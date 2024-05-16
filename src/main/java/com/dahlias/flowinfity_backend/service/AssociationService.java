@@ -26,7 +26,8 @@ public class AssociationService {
     public Association updateAssociation(Long id, Association associationDetails) {
         Association association = associationRepository.findById(id).orElseThrow(() -> new RuntimeException("Association not found with id: " + id));
         association.setAssociationName(associationDetails.getAssociationName());
-        association.setMoney(associationDetails.getMoney());
+        association.setBudget(associationDetails.getBudget());
+        association.setRib(associationDetails.getRib());
         return associationRepository.save(association);
     }
 

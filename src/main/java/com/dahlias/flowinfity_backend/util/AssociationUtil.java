@@ -18,7 +18,7 @@ public class AssociationUtil {
     }
 
     public static void updateAssociationMoney(Association association, BigDecimal amount) {
-        association.setMoney(association.getMoney().subtract(amount));
+        association.setBudget(association.getBudget().subtract(amount));
         associationRepository.save(association);
     }
 }

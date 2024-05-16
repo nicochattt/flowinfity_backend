@@ -12,8 +12,11 @@ public class Association {
     @Column(name = "associationname")
     private String associationName;
 
-    @Column(name = "money")
-    private BigDecimal money;
+    @Column(name = "budget")
+    private BigDecimal budget;
+
+    @Column(name = "rib")
+    private String rib;
 
     public Long getId() {
         return id;
@@ -31,11 +34,18 @@ public class Association {
         this.associationName = associationName;
     }
 
-    public BigDecimal getMoney() {
-        return money;
+    public BigDecimal getBudget() {
+        return budget;
     }
 
-    public void setMoney(BigDecimal money) {
-        this.money = money;
+    public void setBudget(BigDecimal budget) {
+        this.budget = budget;
+    }
+    public String getRib() {
+        return rib;
+    }
+
+    public void setRib(String rib) {
+        this.rib = rib;
     }
 }
