@@ -1,6 +1,8 @@
 package com.dahlias.flowinfity_backend.data;
+
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+
 @Entity
 @Table(name = "association")
 public class Association {
@@ -17,6 +19,10 @@ public class Association {
 
     @Column(name = "rib")
     private String rib;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "associationstatut")
+    private AssociationStatut statut;
 
     public Long getId() {
         return id;
@@ -41,11 +47,20 @@ public class Association {
     public void setBudget(BigDecimal budget) {
         this.budget = budget;
     }
+
     public String getRib() {
         return rib;
     }
 
     public void setRib(String rib) {
         this.rib = rib;
+    }
+
+    public AssociationStatut getAssociationStatut() {
+        return statut;
+    }
+
+    public void setAssociationStatut(AssociationStatut statut) {
+        this.statut = statut;
     }
 }

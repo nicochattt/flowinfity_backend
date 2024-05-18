@@ -28,8 +28,12 @@ CREATE TABLE IF NOT EXISTS `mydb`.`user` (
   `password` VARCHAR(45) NULL,
   `email` VARCHAR(255) NULL,
   `rib` VARCHAR(255) NULL,
-  PRIMARY KEY (`iduser`))
+  `userstatut` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`iduser`),
+  INDEX `idx_firstname` (`firstname` ASC) VISIBLE,
+  INDEX `idx_lastname` (`lastname` ASC) VISIBLE)
 ENGINE = InnoDB;
+
 
 
 -- -----------------------------------------------------
@@ -40,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`association` (
   `associationname` VARCHAR(45) NULL,
   `budget` DECIMAL(45) NULL,
   `rib` VARCHAR(255) NULL,
+  `associationstatut` VARCHAR(255) NULL,
   PRIMARY KEY (`idassociation`))
 ENGINE = InnoDB;
 
@@ -48,9 +53,11 @@ ENGINE = InnoDB;
 -- Table `mydb`.`associationmember`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`associationmember` (
+  `idassociationmember` INT NOT NULL AUTO_INCREMENT,
   `user_iduser` INT NOT NULL,
   `association_idassociation` INT NOT NULL,
-  PRIMARY KEY (`user_iduser`, `association_idassociation`),
+  `associationmemberstatut` VARCHAR(255)  NOT NULL,
+  PRIMARY KEY (`idassociationmember`,`user_iduser`, `association_idassociation`),
   INDEX `fk_associationmember_association1_idx` (`association_idassociation` ASC) VISIBLE,
   CONSTRAINT `fk_associationmember_user`
     FOREIGN KEY (`user_iduser`)
@@ -63,23 +70,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`associationmember` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`admin`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`admin` (
-  `idadmin` INT NOT NULL AUTO_INCREMENT,
-  `user_iduser` INT NOT NULL,
-  PRIMARY KEY (`idadmin`, `user_iduser`),
-  INDEX `fk_admin_user1_idx` (`user_iduser` ASC) VISIBLE,
-  CONSTRAINT `fk_admin_user1`
-    FOREIGN KEY (`user_iduser`)
-    REFERENCES `mydb`.`user` (`iduser`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `mydb`.`transaction`
@@ -121,98 +111,6 @@ CREATE TABLE IF NOT EXISTS `mydb`.`demanderemboursement` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_demanderemboursement_association1`
-    FOREIGN KEY (`association_idassociation`)
-    REFERENCES `mydb`.`association` (`idassociation`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`presidents`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`presidents` (
-  `idpresidents` INT NOT NULL AUTO_INCREMENT,
-  `user_iduser` INT NOT NULL,
-  `association_idassociation` INT NOT NULL,
-  PRIMARY KEY (`idpresidents`, `user_iduser`, `association_idassociation`),
-  INDEX `fk_presidents_user1_idx` (`user_iduser` ASC) VISIBLE,
-  INDEX `fk_presidents_association1_idx` (`association_idassociation` ASC) VISIBLE,
-  CONSTRAINT `fk_presidents_user1`
-    FOREIGN KEY (`user_iduser`)
-    REFERENCES `mydb`.`user` (`iduser`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_presidents_association1`
-    FOREIGN KEY (`association_idassociation`)
-    REFERENCES `mydb`.`association` (`idassociation`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`vicepresidents`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`vicepresidents` (
-  `idvicepresidents` INT NOT NULL AUTO_INCREMENT,
-  `user_iduser` INT NOT NULL,
-  `association_idassociation` INT NOT NULL,
-  PRIMARY KEY (`idvicepresidents`, `user_iduser`, `association_idassociation`),
-  INDEX `fk_vicepresidents_user1_idx` (`user_iduser` ASC) VISIBLE,
-  INDEX `fk_vicepresidents_association1_idx` (`association_idassociation` ASC) VISIBLE,
-  CONSTRAINT `fk_vicepresidents_user1`
-    FOREIGN KEY (`user_iduser`)
-    REFERENCES `mydb`.`user` (`iduser`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_vicepresidents_association1`
-    FOREIGN KEY (`association_idassociation`)
-    REFERENCES `mydb`.`association` (`idassociation`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`tresoriers`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`tresoriers` (
-  `idtresoriers` INT NOT NULL AUTO_INCREMENT,
-  `user_iduser` INT NOT NULL,
-  `association_idassociation` INT NOT NULL,
-  PRIMARY KEY (`idtresoriers`, `user_iduser`, `association_idassociation`),
-  INDEX `fk_tresoriers_user1_idx` (`user_iduser` ASC) VISIBLE,
-  INDEX `fk_tresoriers_association1_idx` (`association_idassociation` ASC) VISIBLE,
-  CONSTRAINT `fk_tresoriers_user1`
-    FOREIGN KEY (`user_iduser`)
-    REFERENCES `mydb`.`user` (`iduser`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_tresoriers_association1`
-    FOREIGN KEY (`association_idassociation`)
-    REFERENCES `mydb`.`association` (`idassociation`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `mydb`.`secretairegeneral`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`secretairegeneral` (
-  `idsecretairegeneral` INT NOT NULL,
-  `user_iduser` INT NOT NULL,
-  `association_idassociation` INT NOT NULL,
-  PRIMARY KEY (`idsecretairegeneral`, `user_iduser`, `association_idassociation`),
-  INDEX `fk_secretairegeneral_user1_idx` (`user_iduser` ASC) VISIBLE,
-  INDEX `fk_secretairegeneral_association1_idx` (`association_idassociation` ASC) VISIBLE,
-  CONSTRAINT `fk_secretairegeneral_user1`
-    FOREIGN KEY (`user_iduser`)
-    REFERENCES `mydb`.`user` (`iduser`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_secretairegeneral_association1`
     FOREIGN KEY (`association_idassociation`)
     REFERENCES `mydb`.`association` (`idassociation`)
     ON DELETE NO ACTION

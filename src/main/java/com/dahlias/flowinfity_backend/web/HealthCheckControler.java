@@ -10,12 +10,11 @@ import com.dahlias.flowinfity_backend.service.HealthcheckService;
 @RestController
 public class HealthCheckControler {
 
-
     @Autowired
     private HealthcheckService healthcheckService;
 
     @GetMapping("/healthcheck")
-    public HealthCheck healthCheck(){
-    return healthcheckService.healthCheck();
+    public HealthCheck healthCheck() {
+        return healthcheckService.healthCheck();
     }
 }

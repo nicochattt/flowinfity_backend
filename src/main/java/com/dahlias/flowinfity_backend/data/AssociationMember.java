@@ -4,31 +4,55 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "associationmember")
-@IdClass(AssociationMemberId.class)
 public class AssociationMember {
-    @Id
-    @Column(name = "user_iduser")
-    private Long userId;
 
     @Id
-    @Column(name = "association_idassociation")
-    private Long associationId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idassociationmember")
+    private Long id;
 
-    // Getters and Setters
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_iduser", nullable = false)
+    private User user;
 
-    public Long getUserId() {
-        return userId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "association_idassociation", nullable = false)
+    private Association association;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "associationmemberstatut")
+    private AssociationMemberStatut statut;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Long getAssociationId() {
-        return associationId;
+    public User getUser() {
+        return user;
     }
 
-    public void setAssociationId(Long associationId) {
-        this.associationId = associationId;
+    public void setUser(User user) {
+        this.user = user;
     }
+
+    public Association getAssociation() {
+        return association;
+    }
+
+    public void setAssociation(Association association) {
+        this.association = association;
+    }
+
+    public AssociationMemberStatut getStatut() {
+        return statut;
+    }
+
+    public void setStatut(AssociationMemberStatut statut) {
+        this.statut = statut;
+    }
+
 }

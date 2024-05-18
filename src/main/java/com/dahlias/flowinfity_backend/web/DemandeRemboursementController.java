@@ -29,12 +29,18 @@ public class DemandeRemboursementController {
     }
 
     @PostMapping
-    public DemandeRemboursement createDemande(@RequestBody DemandeRemboursement demande) {
-        return demandeRemboursementService.createDemande(demande);
+    public ResponseEntity<?> createDemande(@RequestBody DemandeRemboursement demande) {
+        try {
+            DemandeRemboursement savedDemande = demandeRemboursementService.createDemande(demande);
+            return ResponseEntity.ok(savedDemande);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DemandeRemboursement> updateDemande(@PathVariable Long id, @RequestBody DemandeRemboursement demandeDetails) {
+    public ResponseEntity<DemandeRemboursement> updateDemande(@PathVariable Long id,
+            @RequestBody DemandeRemboursement demandeDetails) {
         return ResponseEntity.ok(demandeRemboursementService.updateDemande(id, demandeDetails));
     }
 
@@ -43,8 +49,10 @@ public class DemandeRemboursementController {
         demandeRemboursementService.deleteDemande(id);
         return ResponseEntity.ok().build();
     }
+
     @PatchMapping("/{id}/statut")
-    public ResponseEntity<DemandeRemboursement> updateStatut(@PathVariable Long id, @RequestBody DemandeRemboursementStatut statut) {
+    public ResponseEntity<DemandeRemboursement> updateStatut(@PathVariable Long id,
+            @RequestBody DemandeRemboursementStatut statut) {
         return ResponseEntity.ok(demandeRemboursementService.updateStatut(id, statut));
     }
 }

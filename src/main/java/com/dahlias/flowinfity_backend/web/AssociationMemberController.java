@@ -7,13 +7,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.dahlias.flowinfity_backend.data.AssociationMember;
+import com.dahlias.flowinfity_backend.data.AssociationMemberDTO;
+import com.dahlias.flowinfity_backend.data.AssociationMemberStatut;
+import com.dahlias.flowinfity_backend.data.User;
 import com.dahlias.flowinfity_backend.service.AssociationMemberService;
-
 
 @RestController
 @RequestMapping("/api/associationmembers")
 public class AssociationMemberController {
-    
+
     @Autowired
     private AssociationMemberService associationMemberService;
 
@@ -22,9 +24,9 @@ public class AssociationMemberController {
         return associationMemberService.getAllAssociationMembers();
     }
 
-    @GetMapping("/{userId}/{associationId}")
-    public ResponseEntity<AssociationMember> getAssociationMemberById(@PathVariable Long userId, @PathVariable Long associationId) {
-        return associationMemberService.getAssociationMemberById(userId, associationId)
+    @GetMapping("/{Id}")
+    public ResponseEntity<AssociationMember> getAssociationMemberById(@PathVariable Long id) {
+        return associationMemberService.getAssociationMemberById(id)
                 .map(associationMember -> ResponseEntity.ok().body(associationMember))
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -34,14 +36,51 @@ public class AssociationMemberController {
         return associationMemberService.createAssociationMember(associationMember);
     }
 
-    @PutMapping("/{userId}/{associationId}")
-    public ResponseEntity<AssociationMember> updateAssociationMember(@PathVariable Long userId, @PathVariable Long associationId, @RequestBody AssociationMember associationMemberDetails) {
-        return ResponseEntity.ok(associationMemberService.updateAssociationMember(userId, associationId, associationMemberDetails));
+    @PutMapping("/{Id}")
+    public ResponseEntity<AssociationMember> updateAssociationMember(@PathVariable Long id,
+            @RequestBody AssociationMember associationMemberDetails) {
+        return ResponseEntity.ok(associationMemberService.updateAssociationMember(id, associationMemberDetails));
     }
 
     @DeleteMapping("/{userId}/{associationId}")
-    public ResponseEntity<Void> deleteAssociationMember(@PathVariable Long userId, @PathVariable Long associationId) {
-        associationMemberService.deleteAssociationMember(userId, associationId);
+    public ResponseEntity<Void> deleteAssociationMember(@PathVariable Long id) {
+        associationMemberService.deleteAssociationMember(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{associationId}/members")
+    public ResponseEntity<List<User>> getAssociationMembers(@PathVariable Long associationId) {
+        List<User> members = associationMemberService.getMembersByAssociationId(associationId);
+        if (members.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(members);
+    }
+
+    @GetMapping("/{associationId}/{statut}/members")
+    public ResponseEntity<List<User>> getAssociationMembersByStatut(@PathVariable Long associationId,
+            AssociationMemberStatut statut) {
+        List<User> members = associationMemberService.getMembersByAssociationIdAndStatut(associationId, statut);
+        if (members.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(members);
+    }
+
+    @PatchMapping("/{id}/statut")
+    public ResponseEntity<AssociationMember> updateStatut(@PathVariable Long id,
+            @RequestBody AssociationMemberStatut statut) {
+        return ResponseEntity.ok(associationMemberService.updateStatut(id, statut));
+    }
+
+    @GetMapping("/{associationId}/statut/members")
+    public ResponseEntity<List<AssociationMemberDTO>> getMembersWithStatusByAssociationId(
+            @PathVariable Long associationId) {
+        List<AssociationMemberDTO> members = associationMemberService
+                .getMembersWithStatusByAssociationId(associationId);
+        if (members.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(members);
     }
 }

@@ -34,7 +34,8 @@ public class TransactionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Transaction> updateTransaction(@PathVariable Long id, @RequestBody Transaction transactionDetails) {
+    public ResponseEntity<Transaction> updateTransaction(@PathVariable Long id,
+            @RequestBody Transaction transactionDetails) {
         return ResponseEntity.ok(transactionService.updateTransaction(id, transactionDetails));
     }
 
@@ -43,4 +44,10 @@ public class TransactionController {
         transactionService.deleteTransaction(id);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/associations/{associationId}/transactions")
+    public List<Transaction> getTransactionsByAssociation(@PathVariable Long associationId) {
+        return transactionService.getAllTransactionsByAssociationId(associationId);
+    }
+
 }

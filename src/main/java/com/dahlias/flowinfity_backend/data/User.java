@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "user")
 public class User {
-    
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +28,11 @@ public class User {
 
     @Column(name = "rib")
     private String rib;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "userstatut")
+    private UserStatut statut;
+
     // Getters and Setters
 
     public Long getId() {
@@ -78,11 +82,20 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
     public String getRib() {
         return rib;
     }
 
     public void setRib(String rib) {
         this.rib = rib;
+    }
+
+    public UserStatut getStatut() {
+        return statut;
+    }
+
+    public void setStatut(UserStatut statut) {
+        this.statut = statut;
     }
 }
